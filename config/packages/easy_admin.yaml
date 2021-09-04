@@ -1,0 +1,363 @@
+# config/packages/easy_admin.yaml
+easy_admin:
+  site_name: '<img src="https://is2-ssl.mzstatic.com/image/thumb/Purple124/v4/30/f2/50/30f25066-ebc6-d63e-bd15-39d1238fe278/source/512x512bb.jpg" width=50 height=50/> College Paste'
+  design:
+    brand_color: '#2494CC'
+    menu:
+      - { entity: 'College', permission: ['ROLE_ADMIN'] }
+      - { entity: 'CollegeUsers', permission: ['ROLE_ADMIN'] }
+
+      - { entity: 'User', permission: 'ROLE_ADMIN' }
+
+      - { entity: 'Student', permission: ['ROLE_ADMIN']}
+      - { entity: 'StudentUsers', permission: ['ROLE_ADMIN'] }
+      - { entity: 'StudentShow', permission: ['ROLE_STUDENT'] }
+  show:
+    title: '%%entity_label%% (#%%entity_id%%)'
+  list:
+    title: 'College Paste Admin | %%entity_label%% listing'
+    max_results: 30
+  formats:
+    date:     'd/m/Y'
+    time:     'H:i'
+    datetime: 'd/m/Y H:i:s'
+    number: '%.2f'
+  user:
+    name_property_path: 'fullName'
+
+  entities:
+    College:
+      class: App\Entity\College
+      label: 'Colleges'
+      list:
+        item_permission: ['ROLE_ADMIN', 'ROLE_COLLEGE']
+        fields:
+          - { property: 'schoolName', label: 'Name' }
+          - { property: 'email', label: 'Email Address' }
+          - { property: 'schoolLogo', type: 'image', base_path: '%school_logos%' , label: 'Logo' }
+          - { property: 'schoolImageUrl', type: 'image', base_path: '%school_images%' , label: 'Image' }
+          - { property: 'user', label: 'User Assigned' }
+      new:
+        fields:
+          - { property: 'thumbnail', label: 'School/College Logo', type: 'vich_image' , type_options: {allow_delete: false}}
+          - { property: 'schoolImageThumbnail', label: 'School/College Image', type: 'vich_image' , type_options: {allow_delete: false}}
+          - { property: 'schoolName', label: 'School Name', css_class: 'col-md-6', type_options: { required: true } }
+          - { property: 'schoolNumber', type: 'tel', label: 'School Number', css_class: 'col-md-6', type_options: { required: true } }
+          - { property: 'email', label: 'Email Address', type_options: { required: true } }
+          - { property: 'address', type: 'text', css_class: 'col-md-8', label: 'Address',  type_options: { required: false } }
+          # General Details
+          - { type: 'group', label: 'GENERAL' }
+          - { property: 'state', label: 'State', css_class: 'col-md-4', type: 'choice', type_options: { required: true, choices: '%states%' } }
+          - { property: 'region', label: 'Region', css_class: 'col-md-4', type: 'choice', type_options: { required: false, choices: '%region%' } }
+          - { property: 'collegeCategory', css_class: 'col-md-4', label: 'College Category', type: 'choice', type_options: { multiple: true, choices: '%collegeCategory%' } }
+
+          - { property: 'totalEnrollment', css_class: 'col-md-4', label: 'Total Enrollment' }
+          - { property: 'totalExpenses', css_class: 'col-md-4', type: 'money', label: 'Total In-State Expenses' }
+          - { property: 'acceptanceRate', css_class: 'col-md-4', type: 'percent', label: 'Acceptance Rate' }
+          - { property: 'awardsOffered', css_class: 'col-md-4', label: 'Awards Offered', type: 'choice', type_options: { multiple: true, expanded: false,
+                                                                                                                         choices: { 'Certificate': 'Certificate',
+                                                                                                                                    "Associate": 'Associate',
+                                                                                                                                    "Bachelor": 'Bachelor', 'Professional': 'Professional' } } }
+          - { property: 'programsMajors', css_class: 'col-md-4', label: 'Programs Major', type: 'choice', type_options: { required: true, multiple: true, expanded: false,
+                                                                                                                         choices: '%programsMajor%' } }
+          - { property: 'studentToFacultyRatio', css_class: 'col-md-4', label: 'Student to Faculty Ratio', type_options: { help: '<i class="fa fa-info-circle"></i> 10 to 1' } }
+          - { type: 'group', label: 'BASIC' }
+          - { property: 'website', type: 'url', css_class: 'col-md-4', label: 'Website' }
+          - { property: 'request', type: 'url', css_class: 'col-md-4', label: 'Request' }
+          - { property: 'apply', type: 'url', css_class: 'col-md-4', label: 'Apply' }
+          - { property: 'visit', type: 'url', css_class: 'col-md-4', label: 'Visit' }
+
+          - { type: 'group', label: 'Student Demographics' }
+          - { property: 'americanIndianOrAlaskanNative', css_class: 'col-md-4', type: 'integer', label: 'American Indian or Alaskan Native (%)' }
+          - { property: 'asian', css_class: 'col-md-4', type: 'integer', label: 'Asian (%)' }
+          - { property: 'blackOrAfricanAmerica', css_class: 'col-md-4', type: 'integer', label: 'Black or African American (%)' }
+          - { property: 'hispanicOrLatino', css_class: 'col-md-4', type: 'integer', label: 'Hispanic/Latino (%)' }
+          - { property: 'nativeHawaiianOrOtherPacificIslander', css_class: 'col-md-4', type: 'integer', label: 'Native Hawaiian or Other Pacific Islander (%)' }
+          - { property: 'white', css_class: 'col-md-4', type: 'integer', label: 'White (%)' }
+          - { property: 'twoOrMoreRaces', css_class: 'col-md-4', type: 'integer', label: 'Two or more races (%)' }
+          - { property: 'unknownRace', css_class: 'col-md-4', type: 'integer', label: 'Race/ethnicity unknown (%)' }
+          - { property: 'nonResidentAlien', css_class: 'col-md-4', type: 'integer', label: 'Non-resident alien (%)' }
+
+          - { type: 'group', label: 'Graduation Time Lines' }
+          - { property: 'fourYear', css_class: 'col-md-3', type: 'integer', label: '4 Year (%)' }
+          - { property: 'fiveYear', css_class: 'col-md-3', type: 'integer', label: '5 Year (%)' }
+          - { property: 'sixYear', css_class: 'col-md-3', type: 'integer', label: '6 Year (%)' }
+          - { property: 'eightYear', css_class: 'col-md-3', type: 'integer', label: '8 Year (%)' }
+
+          - { type: 'group' }
+          - { property: 'SATEvidenceBasedReadingAndWriting', type: 'text', css_class: 'col-md-4', label: 'SAT Evidence Based Reading And Writing' }
+          - { property: 'SATMath', type: 'text', css_class: 'col-md-4', label: 'SAT Math' }
+          - { property: 'ACTComposite', type: 'text', css_class: 'col-md-4', label: 'ACT Composite' }
+          - { property: 'ACTEnglish', type: 'text', css_class: 'col-md-4', label: 'ACT English' }
+          - { property: 'ACTMath', type: 'text', css_class: 'col-md-4', label: 'ACT Math' }
+          - { property: 'financialAid', css_class: 'col-md-4', label: 'Financial Aid' }
+          - { property: 'campusSetting', css_class: 'col-md-6', type: 'choice', label: 'Campus Setting', type_options: { choices: '%campusSetting%' } }
+          - { property: 'religiousAssociation', css_class: 'col-md-6', type: 'text', label: 'Religious Association' }
+
+          - { type: 'group', label: 'Distance Education' }
+          - { property: 'onlyDistanceEducation', css_class: 'col-md-4', type: 'integer', label: 'Only Distance Education (%)' }
+          - { property: 'someDistanceEducation', css_class: 'col-md-4', type: 'integer', label: 'Some Distance Education (%)' }
+          - { property: 'notEnrolledDistanceEducation', css_class: 'col-md-4', type: 'integer', label: 'Not Enrolled Distance Education' }
+
+
+          - { type: 'group' }
+          - { property: 'sport', css_class: 'col-md-6', type: 'choice', label: 'Sports', type_options: { multiple: true, choices: '%sports%' } }
+          - { property: 'clubActivities', css_class: 'col-md-6', type: 'choice', label: 'Club Activities', type_options: { multiple: true, choices: '%clubActivities%' } }
+          - { property: 'user', type: 'entity', label: 'College User', type_options: { class: 'App\Entity\User', required: true, multiple: false, query_builder: ['App\Controller\DefaultController', 'getCollegeUsers'] } }
+      edit:
+        fields:
+          - { property: 'thumbnail', label: 'School/College Logo', type: 'vich_image' , type_options: {allow_delete: false}}
+          - { property: 'schoolImageThumbnail', label: 'School/College Image', type: 'vich_image' , type_options: {allow_delete: false}}
+          - { property: 'schoolName', label: 'School Name', css_class: 'col-md-6', type_options: { required: true } }
+          - { property: 'schoolNumber', type: 'tel', label: 'School Number', css_class: 'col-md-6', type_options: { required: true } }
+          - { property: 'email', label: 'Email Address', type_options: { required: true } }
+          - { property: 'address', type: 'text', css_class: 'col-md-8', label: 'Address',  type_options: { required: false } }
+          # General Details
+          - { type: 'group', label: 'GENERAL' }
+          - { property: 'state', label: 'State', css_class: 'col-md-4', type: 'choice', type_options: { required: true, choices: '%states%' } }
+          - { property: 'region', label: 'Region', css_class: 'col-md-4', type: 'choice', type_options: { required: false, choices: '%region%' } }
+          - { property: 'collegeCategory', css_class: 'col-md-4', label: 'College Category', type: 'choice', type_options: { multiple: true, choices: '%collegeCategory%' } }
+
+          - { property: 'totalEnrollment', css_class: 'col-md-4', label: 'Total Enrollment' }
+          - { property: 'totalExpenses', css_class: 'col-md-4', type: 'money', label: 'Total In-State Expenses' }
+          - { property: 'acceptanceRate', css_class: 'col-md-4', type: 'percent', label: 'Acceptance Rate' }
+          - { property: 'awardsOffered', css_class: 'col-md-4', label: 'Awards Offered', type: 'choice', type_options: { multiple: true, expanded: false,
+                                                                                                                         choices: { 'Certificate': 'Certificate',
+                                                                                                                                    "Associate": 'Associate',
+                                                                                                                                    "Bachelor": 'Bachelor', 'Professional': 'Professional' } } }
+          - { property: 'programsMajors', css_class: 'col-md-4', label: 'Programs Major', type: 'choice', type_options: { required: true, multiple: true, expanded: false,
+                                                                                                                          choices: '%programsMajor%' } }
+          - { property: 'studentToFacultyRatio', css_class: 'col-md-4', label: 'Student to Faculty Ratio', type_options: { help: '<i class="fa fa-info-circle"></i> 10 to 1' } }
+          - { type: 'group', label: 'BASIC' }
+          - { property: 'website', type: 'url', css_class: 'col-md-4', label: 'Website' }
+          - { property: 'request', type: 'url', css_class: 'col-md-4', label: 'Request' }
+          - { property: 'apply', type: 'url', css_class: 'col-md-4', label: 'Apply' }
+          - { property: 'visit', type: 'url', css_class: 'col-md-4', label: 'Visit' }
+
+          - { type: 'group', label: 'Student Demographics' }
+          - { property: 'americanIndianOrAlaskanNative', css_class: 'col-md-4', type: 'integer', label: 'American Indian or Alaskan Native (%)' }
+          - { property: 'asian', css_class: 'col-md-4', type: 'integer', label: 'Asian (%)' }
+          - { property: 'blackOrAfricanAmerica', css_class: 'col-md-4', type: 'integer', label: 'Black or African American (%)' }
+          - { property: 'hispanicOrLatino', css_class: 'col-md-4', type: 'integer', label: 'Hispanic/Latino (%)' }
+          - { property: 'nativeHawaiianOrOtherPacificIslander', css_class: 'col-md-4', type: 'integer', label: 'Native Hawaiian or Other Pacific Islander (%)' }
+          - { property: 'white', css_class: 'col-md-4', type: 'integer', label: 'White (%)' }
+          - { property: 'twoOrMoreRaces', css_class: 'col-md-4', type: 'integer', label: 'Two or more races (%)' }
+          - { property: 'unknownRace', css_class: 'col-md-4', type: 'integer', label: 'Race/ethnicity unknown (%)' }
+          - { property: 'nonResidentAlien', css_class: 'col-md-4', type: 'integer', label: 'Non-resident alien (%)' }
+
+          - { type: 'group', label: 'Graduation Time Lines' }
+          - { property: 'fourYear', css_class: 'col-md-3', type: 'integer', label: '4 Year (%)' }
+          - { property: 'fiveYear', css_class: 'col-md-3', type: 'integer', label: '5 Year (%)' }
+          - { property: 'sixYear', css_class: 'col-md-3', type: 'integer', label: '6 Year (%)' }
+          - { property: 'eightYear', css_class: 'col-md-3', type: 'integer', label: '8 Year (%)' }
+
+          - { type: 'group' }
+          - { property: 'SATEvidenceBasedReadingAndWriting', type: 'text', css_class: 'col-md-4', label: 'SAT Evidence Based Reading And Writing' }
+          - { property: 'SATMath', type: 'text', css_class: 'col-md-4', label: 'SAT Math' }
+          - { property: 'ACTComposite', type: 'text', css_class: 'col-md-4', label: 'ACT Composite' }
+          - { property: 'ACTEnglish', type: 'text', css_class: 'col-md-4', label: 'ACT English' }
+          - { property: 'ACTMath', type: 'text', css_class: 'col-md-4', label: 'ACT Math' }
+          - { property: 'financialAid', css_class: 'col-md-4', label: 'Financial Aid' }
+          - { property: 'campusSetting', css_class: 'col-md-6', type: 'choice', label: 'Campus Setting', type_options: { choices: '%campusSetting%' } }
+          - { property: 'religiousAssociation', css_class: 'col-md-6', type: 'text', label: 'Religious Association' }
+
+          - { type: 'group', label: 'Distance Education' }
+          - { property: 'onlyDistanceEducation', css_class: 'col-md-4', type: 'integer', label: 'Only Distance Education (%)' }
+          - { property: 'someDistanceEducation', css_class: 'col-md-4', type: 'integer', label: 'Some Distance Education (%)' }
+          - { property: 'notEnrolledDistanceEducation', css_class: 'col-md-4', type: 'integer', label: 'Not Enrolled Distance Education' }
+
+
+          - { type: 'group' }
+          - { property: 'sport', css_class: 'col-md-6', type: 'choice', label: 'Sports', type_options: { multiple: true, choices: '%sports%' } }
+          - { property: 'clubActivities', css_class: 'col-md-6', type: 'choice', label: 'Club Activities', type_options: { multiple: true, choices: '%clubActivities%' } }
+        #   - { property: 'user', type: 'entity', label: 'College User' }
+
+        actions:
+          - '-new'
+          - '-delete'
+
+    CollegeUsers:
+      class: App\Entity\User
+      label: "College's User"
+      list:
+        help: 'This list contains users assigned/can assign to College'
+        fields: ['username', 'firstName', 'lastName', { property: 'email', label: 'Contact', type: 'email' }, 'enabled', 'college']
+        dql_filter: "entity.roles LIKE '%%ROLE_COLLEGE%%'"
+      search:
+        fields: ['username', 'email']
+      edit:
+        fields:
+          - { property: 'firstName', type: 'text', label: 'First Name', type_options: { required: true }  }
+          - { property: 'lastName', type: 'text', label: 'Last Name', type_options: { required: true }  }
+          - { property: 'primaryNumber', type: 'tel', label: 'Primary Number', type_options: { required: true }  }
+          - { property: 'secondaryNumber', type: 'tel', label: 'Secondary Number', type_options: { required: false }  }
+          - { property: 'email', type: 'email', label: 'Contact Email', type_options: { required: true }  }
+          - { property: 'address', type: 'text', label: 'Address', type_options: { required: true }  }
+          - { property: 'state', type: 'text', label: 'State', type_options: { required: true }  }
+          - { property: 'area', type: 'text', label: 'Area', type_options: { required: false }  }
+          - { property: 'landmark', type: 'text', label: 'Landmark', type_options: { required: false }  }
+          - { property: 'region', type: 'choice', label: 'Region', type_options: { required: false, choices: '%region%' }  }
+          - { property: 'plainPassword', type: 'text', label: 'Interface Password', type_options: { required: false }  }
+      new:
+        fields:
+          - { property: 'username', type: 'text', label: 'Username', type_options: { required: true } }
+          - { property: 'firstName', type: 'text', label: 'First Name', type_options: { required: true } }
+          - { property: 'lastName', type: 'text', label: 'Last Name', type_options: { required: true } }
+          - { property: 'primaryNumber', type: 'tel', label: 'Primary Number', type_options: { required: true } }
+          - { property: 'secondaryNumber', type: 'tel', label: 'Secondary Number', type_options: { required: false } }
+          - { property: 'email', type: 'email', label: 'Contact Email', type_options: { required: true } }
+          - { property: 'address', type: 'text', label: 'Address', type_options: { required: true } }
+          - { property: 'state', type: 'text', label: 'State', type_options: { required: true } }
+          - { property: 'area', type: 'text', label: 'Area', type_options: { required: false } }
+          - { property: 'landmark', type: 'text', label: 'Landmark', type_options: { required: false } }
+          - { property: 'region', type: 'choice', label: 'Region', type_options: { required: false, choices: '%region%' } }
+          - { property: 'plainPassword', type: 'text', label: 'Interface Password', type_options: { required: true } }
+          - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_COLLEGE': 'ROLE_COLLEGE' } } }
+
+    StudentShow:
+      class: App\Entity\Student
+      controller: App\Controller\StudentController
+      list:
+        title: "College Paste | Student"
+        actions:
+          - { name: 'search', label: 'Student Search' }
+          - { name: 'new', label: 'Add Student' }
+      show:
+        item_permission: ['ROLE_STUDENT']
+        title: "User Details"
+        fields:
+          - { property: 'firstName', type: 'text', label: 'First Name'  }
+          - { property: 'lastName', type: 'text', label: 'Last Name'  }
+          - { property: 'mobileNumber', type: 'tel', label: 'Mobile Number'}
+      new:
+
+        item_permission: ROLE_NOT_ALLOWED
+      delete:
+        item_permission: ROLE_NOT_ALLOWED
+
+#          - { property: 'email', type: 'email', label: 'Contact Email', type_options: { required: true }  }
+#          - { property: 'address', type: 'text', label: 'Address', type_options: { required: true }  }
+#          - { property: 'dateOfBirth', label: 'Date Of Birth', type_options: { required: true, widget: 'single_text' } }
+#          - { property: 'unitNumber', type: 'integer', label: 'Apt/Unit/Site Number', type_options: { required: false }  }
+#          - { property: 'schoolStartTime', type: 'choice', label: 'School Start Terms', type_options: { required: false, choices: '%schoolTerms%' }  }
+#          - { property: 'educationLevelCompleted', type: 'integer', label: 'Grade Level Completed', type_options: { required: false }  }
+#          - { property: 'raceEthnicity', type: 'choice', label: 'Race/Ethnicity', type_options: { required: false, choices: '%raceEthnicity%' }  }
+#          - { property: 'firstGeneration', type: 'choice', label: 'First Generation', type_options: { required: true, choices: '%firstGeneration%' }  }
+#          - { property: 'activeMilitary', type: 'choice', label: 'Active Military', type_options: { required: true, choices: '%activeMilitary%' }  }
+#          - { property: 'user', type: 'entity', label: 'Student User', type_options: { class: 'App\Entity\User', required: true, multiple: false, query_builder: ['App\Controller\DefaultController', 'getStudentUsers'] } }
+
+
+    Student:
+      class: App\Entity\Student
+      list:
+        item_permission: ['ROLE_ADMIN', 'ROLE_STUDENT']
+        fields:
+          - { property: 'fullName', label: 'Name' }
+          - { property: 'email', type: 'email', label: 'Email Address' }
+          - { property: 'user', label: 'User Assigned' }
+      edit:
+        fields:
+          - { property: 'firstName', type: 'text', label: 'First Name', type_options: { required: true }  }
+          - { property: 'lastName', type: 'text', label: 'Last Name', type_options: { required: true }  }
+          - { property: 'mobileNumber', type: 'tel', label: 'Mobile Number', type_options: { required: true }  }
+          - { property: 'email', type: 'email', label: 'Contact Email', type_options: { required: true }  }
+          - { property: 'address', type: 'text', label: 'Address', type_options: { required: true }  }
+          - { property: 'dateOfBirth', label: 'Date Of Birth', type_options: { required: true, widget: 'single_text' } }
+          - { property: 'unitNumber', type: 'integer', label: 'Apt/Unit/Site Number', type_options: { required: false }  }
+          - { property: 'schoolStartTime', type: 'choice', label: 'School Start Terms', type_options: { required: false, choices: '%schoolTerms%' }  }
+          - { property: 'educationLevelCompleted', type: 'integer', label: 'Grade Level Completed', type_options: { required: false }  }
+          - { property: 'raceEthnicity', type: 'choice', label: 'Race/Ethnicity', type_options: { required: false, choices: '%raceEthnicity%' }  }
+          - { property: 'firstGeneration', type: 'choice', label: 'First Generation', type_options: { required: true, choices: '%firstGeneration%' }  }
+          - { property: 'activeMilitary', type: 'choice', label: 'Active Military', type_options: { required: true, choices: '%activeMilitary%' }  }
+          - { property: 'user', type: 'entity', label: 'Student User', type_options: { class: 'App\Entity\User', required: true, multiple: false, query_builder: ['App\Controller\DefaultController', 'getStudentUsers'] } }
+
+      new:
+        fields:
+          - { property: 'firstName', type: 'text', label: 'First Name', type_options: { required: true }  }
+          - { property: 'lastName', type: 'text', label: 'Last Name', type_options: { required: true }  }
+          - { property: 'mobileNumber', type: 'tel', label: 'Mobile Number', type_options: { required: true }  }
+          - { property: 'email', type: 'email', label: 'Contact Email', type_options: { required: true }  }
+          - { property: 'address', type: 'text', label: 'Address', type_options: { required: true }  }
+          - { property: 'dateOfBirth', label: 'Date Of Birth', type_options: { required: true, widget: 'single_text'  }  }
+          - { property: 'unitNumber', type: 'integer', label: 'Apt/Unit/Site Number', type_options: { required: false }  }
+          - { property: 'schoolStartTime', type: 'choice', label: 'School Start Terms', type_options: { required: false, choices: '%schoolTerms%' }  }
+          - { property: 'educationLevelCompleted', type: 'integer', label: 'Grade Level Completed', type_options: { required: false }  }
+          - { property: 'raceEthnicity', type: 'choice', label: 'Race/Ethnicity', type_options: { required: false, choices: '%raceEthnicity%' }  }
+          - { property: 'firstGeneration', type: 'choice', label: 'First Generation', type_options: { required: true, choices: '%firstGeneration%' }  }
+          - { property: 'activeMilitary', type: 'choice', label: 'Active Military', type_options: { required: true, choices: '%activeMilitary%' }  }
+          - { property: 'user', type: 'entity', label: 'Student User', type_options: { class: 'App\Entity\User', required: true, multiple: false, query_builder: ['App\Controller\DefaultController', 'getStudentUsers'] } }
+
+    StudentUsers:
+      class: App\Entity\User
+      label: "Student's User"
+      list:
+        help: 'This list contains users assigned/can assign to Student'
+        fields: ['username', 'firstName', 'lastName', { property: 'email', label: 'Contact', type: 'email' }, 'enabled', 'student']
+        dql_filter: "entity.roles LIKE '%%ROLE_STUDENT%%'"
+      edit:
+        item_permission: [ 'ROLE_ADMIN']
+        fields:
+          - { property: 'firstName', type: 'text', label: 'First Name', type_options: { required: true }  }
+          - { property: 'lastName', type: 'text', label: 'Last Name', type_options: { required: true }  }
+          - { property: 'primaryNumber', type: 'tel', label: 'Primary Number', type_options: { required: true }  }
+          - { property: 'secondaryNumber', type: 'tel', label: 'Secondary Number', type_options: { required: false }  }
+          - { property: 'email', type: 'email', label: 'Contact Email', type_options: { required: true }  }
+          - { property: 'address', type: 'text', label: 'Address', type_options: { required: true }  }
+          - { property: 'state', type: 'text', label: 'State', type_options: { required: true }  }
+          - { property: 'area', type: 'text', label: 'Area', type_options: { required: false }  }
+          - { property: 'landmark', type: 'text', label: 'Landmark', type_options: { required: false }  }
+          - { property: 'region', type: 'choice', label: 'Region', type_options: { required: false, choices: '%region%' }  }
+          - { property: 'plainPassword', type: 'text', label: 'Interface Password', type_options: { required: false }  }
+      new:
+        fields:
+          - { property: 'username', type: 'text', label: 'Username', type_options: { required: true } }
+          - { property: 'firstName', type: 'text', label: 'First Name', type_options: { required: true } }
+          - { property: 'lastName', type: 'text', label: 'Last Name', type_options: { required: true } }
+          - { property: 'primaryNumber', type: 'tel', label: 'Primary Number', type_options: { required: true } }
+          - { property: 'secondaryNumber', type: 'tel', label: 'Secondary Number', type_options: { required: false } }
+          - { property: 'email', type: 'email', label: 'Contact Email', type_options: { required: true } }
+          - { property: 'address', type: 'text', label: 'Address', type_options: { required: true } }
+          - { property: 'state', type: 'text', label: 'State', type_options: { required: true } }
+          - { property: 'area', type: 'text', label: 'Area', type_options: { required: false } }
+          - { property: 'landmark', type: 'text', label: 'Landmark', type_options: { required: false } }
+          - { property: 'region', type: 'choice', label: 'Region', type_options: { required: false, choices: '%region%' } }
+          - { property: 'plainPassword', type: 'text', label: 'Interface Password', type_options: { required: true } }
+          - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_STUDENT': 'ROLE_STUDENT' } } }
+
+    User:
+      class: App\Entity\User
+      label: 'Administrators'
+      list:
+        help: 'This list contains users with Admin Role'
+        fields: ['username', 'firstName', 'lastName', { property: 'email', label: 'Contact', type: 'email' }, 'enabled']
+        dql_filter: "entity.roles LIKE '%%ROLE_ADMIN%%'"
+      search:
+        fields: ['username', 'email']
+      edit:
+        fields:
+          - { property: 'firstName', type: 'text', label: 'First Name', type_options: { required: true }  }
+          - { property: 'lastName', type: 'text', label: 'Last Name', type_options: { required: true }  }
+          - { property: 'primaryNumber', type: 'tel', label: 'Primary Number', type_options: { required: true }  }
+          - { property: 'secondaryNumber', type: 'tel', label: 'Secondary Number', type_options: { required: false }  }
+          - { property: 'email', type: 'email', label: 'Contact Email', type_options: { required: true }  }
+          - { property: 'address', type: 'text', label: 'Address', type_options: { required: true }  }
+          - { property: 'state', type: 'text', label: 'State', type_options: { required: true }  }
+          - { property: 'area', type: 'text', label: 'Area', type_options: { required: false }  }
+          - { property: 'landmark', type: 'text', label: 'Landmark', type_options: { required: false }  }
+          - { property: 'region', type: 'choice', label: 'Region', type_options: { required: false, choices: '%region%' }  }
+          - { property: 'plainPassword', type: 'text', label: 'Interface Password', type_options: { required: false }  }
+      new:
+        fields:
+          - { property: 'username', type: 'text', label: 'Username', type_options: { required: true } }
+          - { property: 'firstName', type: 'text', label: 'First Name', type_options: { required: true } }
+          - { property: 'lastName', type: 'text', label: 'Last Name', type_options: { required: true } }
+          - { property: 'primaryNumber', type: 'tel', label: 'Primary Number', type_options: { required: true } }
+          - { property: 'secondaryNumber', type: 'tel', label: 'Secondary Number', type_options: { required: false } }
+          - { property: 'email', type: 'email', label: 'Contact Email', type_options: { required: true } }
+          - { property: 'address', type: 'text', label: 'Address', type_options: { required: true } }
+          - { property: 'state', type: 'text', label: 'State', type_options: { required: true } }
+          - { property: 'area', type: 'text', label: 'Area', type_options: { required: false } }
+          - { property: 'landmark', type: 'text', label: 'Landmark', type_options: { required: false } }
+          - { property: 'region', type: 'choice', label: 'Region', type_options: { required: false, choices: '%region%' } }
+          - { property: 'plainPassword', type: 'text', label: 'Interface Password', type_options: { required: true } }
+          - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }

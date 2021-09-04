@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|split('_')|first|default('en') }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="generator" content="EasyAdmin" />
+    <title>{% block page_title %}{{ block('content_title')|striptags|raw }}{% endblock %}</title>
+    {% block head_stylesheets %}
+        <link href="{{ asset('css/main.css') }}" rel="stylesheet"/>
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic' rel='stylesheet' type='text/css'>
+        <style>
+            {{ easyadmin_config('_internal.custom_css')|raw }}
+        </style>
+    {% endblock %}
+
+    {% for css_asset in easyadmin_config('design.assets.css') %}
+        <link rel="stylesheet" href="{{ asset(css_asset) }}">
+    {% endfor %}
+
+    {% block head_favicon %}
+    {% endblock %}
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    {% endblock %}
+
+    {% block head_javascript %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% endblock head_javascript %}
+</head>
+{% block body %}
+    <body id="{% block body_id %}{% endblock %}" class="easyadmin{{ app.user.roles|default([])|join(' ')|lower }} {% block body_class %}{% endblock %} {{ app.request.cookies.has('_easyadmin_navigation_iscollapsed') ? 'sidebar-collapse' }}">
+    {% block content %}
+        {% block flash_messages %}
+            {{ _entity_config is defined ? include(_entity_config.templates.flash_messages) }}
+            <div id="flash-messages">
+                {% if app.request.hasPreviousSession %}
+                    {% for type, messages in app.session.flashbag.all() %}
+                        {% for message in messages %}
+                            <div class="flash-{{ type }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endblock flash_messages %}
+        <section class="content-header">
+            {% block content_header %}
+                <h1 class="title">{% block content_title %}
+                        <title>{% if page_title is defined %} {{ page_title }} | {% endif %} College Paste </title>
+                    {% endblock %}</h1>
+            {% endblock content_header %}
+        </section>
+        <section id="main" class="content">
+            {% block main %}
+                <div>
+                    {% block fos_user_content %}
+                    {% endblock fos_user_content %}
+                </div>
+            {% endblock %}
+        </section>
+    {% endblock content %}
+    {% block body_javascript %}
+    {% endblock body_javascript %}
+
+    {% for js_asset in easyadmin_config('design.assets.js') %}
+        <script src="{{ asset(js_asset) }}"></script>
+    {% endfor %}
+    </body>
+{% endblock body %}
+</html>

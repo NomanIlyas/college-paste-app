@@ -1,0 +1,23 @@
+[06-May-2021 15:10:06 UTC] 2021-05-06T15:10:06+00:00 [info] User Deprecated: The Symfony\Bundle\TwigBundle\Loader\FilesystemLoader class is deprecated since version 4.3 and will be removed in 5.0; use Twig notation for templates instead.
+[06-May-2021 15:10:06 UTC] 2021-05-06T15:10:06+00:00 [info] User Deprecated: The "templating.locator" service is deprecated since Symfony 4.3 and will be removed in 5.0.
+[06-May-2021 15:10:06 UTC] 2021-05-06T15:10:06+00:00 [info] User Deprecated: The Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator class is deprecated since version 4.3 and will be removed in 5.0; use Twig instead.
+[06-May-2021 15:10:06 UTC] 2021-05-06T15:10:06+00:00 [info] User Deprecated: The "templating.name_parser" service is deprecated since Symfony 4.3 and will be removed in 5.0.
+[06-May-2021 15:10:06 UTC] 2021-05-06T15:10:06+00:00 [info] User Deprecated: The Symfony\Bundle\FrameworkBundle\Templating\TemplateNameParser class is deprecated since version 4.3 and will be removed in 5.0; use Twig instead.
+[06-May-2021 15:10:27 UTC] 2021-05-06T15:10:27+00:00 [info] User Deprecated: The Symfony\Bundle\TwigBundle\Loader\FilesystemLoader class is deprecated since version 4.3 and will be removed in 5.0; use Twig notation for templates instead.
+[06-May-2021 15:10:27 UTC] 2021-05-06T15:10:27+00:00 [info] User Deprecated: The "templating.locator" service is deprecated since Symfony 4.3 and will be removed in 5.0.
+[06-May-2021 15:10:27 UTC] 2021-05-06T15:10:27+00:00 [info] User Deprecated: The Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator class is deprecated since version 4.3 and will be removed in 5.0; use Twig instead.
+[06-May-2021 15:10:27 UTC] 2021-05-06T15:10:27+00:00 [info] User Deprecated: The "templating.name_parser" service is deprecated since Symfony 4.3 and will be removed in 5.0.
+[06-May-2021 15:10:27 UTC] 2021-05-06T15:10:27+00:00 [info] User Deprecated: The Symfony\Bundle\FrameworkBundle\Templating\TemplateNameParser class is deprecated since version 4.3 and will be removed in 5.0; use Twig instead.
+[06-May-2021 15:22:45 UTC] 2021-05-06T15:22:45+00:00 [info] User Deprecated: The Symfony\Bundle\TwigBundle\Loader\FilesystemLoader class is deprecated since version 4.3 and will be removed in 5.0; use Twig notation for templates instead.
+[06-May-2021 15:23:37 UTC] 2021-05-06T15:23:37+00:00 [info] User Deprecated: The Symfony\Bundle\TwigBundle\Loader\FilesystemLoader class is deprecated since version 4.3 and will be removed in 5.0; use Twig notation for templates instead.
+[06-May-2021 15:23:37 UTC] 2021-05-06T15:23:37+00:00 [info] User Deprecated: The "templating.locator" service is deprecated since Symfony 4.3 and will be removed in 5.0.
+[06-May-2021 15:23:37 UTC] 2021-05-06T15:23:37+00:00 [info] User Deprecated: The Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator class is deprecated since version 4.3 and will be removed in 5.0; use Twig instead.
+[06-May-2021 15:23:37 UTC] 2021-05-06T15:23:37+00:00 [info] User Deprecated: The "templating.name_parser" service is deprecated since Symfony 4.3 and will be removed in 5.0.
+[06-May-2021 15:23:37 UTC] 2021-05-06T15:23:37+00:00 [info] User Deprecated: The Symfony\Bundle\FrameworkBundle\Templating\TemplateNameParser class is deprecated since version 4.3 and will be removed in 5.0; use Twig instead.
+[03-Jun-2021 20:27:17 UTC] PHP Fatal error:  Uncaught Symfony\Component\Console\Exception\RuntimeException: Unable to write output. in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Output/StreamOutput.php:79
+Stack trace:
+#0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Output/Output.php(164): Symfony\Component\Console\Output\StreamOutput->doWrite('\n', true)
+#1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Output/Output.php(132): Symfony\Component\Console\Output\Output->write(Array, true, 16)
+#2 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Application.php(641): Symfony\Component\Console\Output\Output->writeln('', 16)
+#3 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Application.php(127): Symfony\Component\Console\Application->renderException(Object(Symfony\Component\Console\Exception\RuntimeException), Object(Symfony\Component\Console\Output\StreamOutput))
+#4 phar:///opt/cpanel/composer/bin/composer/src/Composer/Console/Application.php(122): Symfony\Component\Conso in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Output/StreamOutput.php on line 79
